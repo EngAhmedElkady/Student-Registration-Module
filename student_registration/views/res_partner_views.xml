@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Inherit the existing form view of res.partner -->
+    <record id="view_partner_form_inherit_student" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.student</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!-- Locate the position after the "Tax ID" field -->
+            <xpath expr="//field[@name='vat']" position="after">
+                <!-- Add Checkbox for is_student -->
+                <field name="is_student" string="Is Student"/>
+                <field name="birth_date" string="Birth Date" attrs="{'required': [('is_student', '=', True)],
+                                                                     'invisible': [('is_student', '=', False)]}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Action to Display Partners with is_student=True -->
+    <record id="action_students" model="ir.actions.act_window">
+        <field name="name">Students</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('is_student', '=', True)]</field>
+        <field name="context">{'default_is_student': True}</field>
+    </record>
+</odoo>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View Definition -->
+    <record id="view_student_registration_tree" model="ir.ui.view">
+        <field name="name">student.registration.tree</field>
+        <field name="model">student.registration</field>
+        <field name="arch" type="xml">
+
+            <tree>
+                <header>
+                    <button name="action_confirm_bulk" type="object" class="oe_stat_button" icon="fa-check-square" string="Confirm Bulk" states="draft"/>
+                </header>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="phone"/>
+                <field name="date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View Definition -->
+    <record id="view_student_registration_form" model="ir.ui.view">
+        <field name="name">student.registration.form</field>
+        <field name="model">student.registration</field>
+        <field name="arch" type="xml">
+            <form string="Student Registration">
+                <header>
+                    <button string="Confirm" type="object" name="action_confirm" states="draft" groups="student_registration.group_registration_manager"/>
+                    <button string="Cancel" type="object" name="action_cancel" states="draft" groups="student_registration.group_registration_manager"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" class="btn-primary"
+                            attrs="{'invisible': ['|', ('invoice_id', '!=', False), ('state', '!=', 'confirmed')]}"/>
+                    <field name="state" readonly="1" widget="statusbar"/>
+                </header>
+                <sheet>
+                     <div name="button_box" position="inside">
+                        <button class="oe_stat_button" type="object" name="action_view_invoice"
+                            icon="fa-file-text-o" string="Invoice"
+                            attrs="{'invisible': [('invoice_id', '=', False)]}"/>
+                    </div>
+                    <group>
+                        <field name="invoice_id" invisible="1"/>
+                        <field name="name"/>
+                        <field name="student_id"/>
+                        <field name="phone"/>
+                        <field name="age"/>
+                        <field name="date"/>
+                        <field name="currency_id" readonly="1"/>
+                        <field name="amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Calendar View Definition -->
+    <record id="view_student_registration_calendar" model="ir.ui.view">
+        <field name="name">student.registration.calendar</field>
+        <field name="model">student.registration</field>
+        <field name="arch" type="xml">
+            <calendar string="Student Registrations" date_start="date" mode="month">
+                <field name="name" string="Registration Number"/>
+                <field name="student_id" string="Student"/>
+                <field name="state" string="Status"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Search View for Student Registration -->
+    <record id="view_student_registration_search" model="ir.ui.view">
+        <field name="name">student.registration.search</field>
+        <field name="model">student.registration</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Search Fields -->
+                <field name="name" string="Registration Number"/>
+                <field name="student_id" string="Student"/>
+                <field name="date" string="Registration Date"/>
+                <field name="state" string="Status"/>
+
+                <!-- Filters -->
+                <filter string="Draft" name="state" domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="state" domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Invoiced" name="state" domain="[('state', '=', 'invoiced')]"/>
+                <filter string="Canceled" name="state" domain="[('state', '=', 'canceled')]"/>
+
+                <!-- Group By -->
+                <group expand="0" string="Group By">
+                    <filter string="Student" name="student_id" domain="" context="{'group_by': 'student_id'}"/>
+                    <filter string="Status" name="state" domain="" context="{'group_by': 'state'}"/>
+                    <filter string="Date" name="date" domain="" context="{'group_by': 'date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action to Open the Student Registration Tree and Form Views -->
+    <record id="action_student_registration" model="ir.actions.act_window">
+        <field name="name">Student Registrations</field>
+        <field name="res_model">student.registration</field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_id" ref="view_student_registration_tree"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new student registration.
+            </p>
+        </field>
+    </record>
+
+</odoo>

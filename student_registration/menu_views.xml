@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Registration Root Menu -->
+    <menuitem id="menu_student_registration_root" name="Registration"/>
+
+    <!-- Submenu for Student Registration -->
+    <menuitem id="menu_student_registration"
+              name="Student Registration"
+              parent="menu_student_registration_root"
+              action="student_registration.action_student_registration"
+              groups="student_registration.group_registration_manager"/>
+
+    <!-- Students Menu Item under Registration -->
+    <menuitem id="menu_registration_students"
+              name="Students"
+              parent="menu_student_registration_root"
+              action="student_registration.action_students"/>
+</odoo>
