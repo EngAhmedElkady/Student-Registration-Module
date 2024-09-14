@@ -6,14 +6,10 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
-            <!-- Locate the position after the "Tax ID" field -->
             <xpath expr="//field[@name='vat']" position="after">
-                <!-- Add Checkbox for is_student -->
                 <field name="is_student" string="Is Student"/>
-                <field name="birth_date" string="Birth Date" attrs="{'required': [('is_student', '=', True)],
-                                                                     'invisible': [('is_student', '=', False)]}"/>
+                <field name="birth_date" string="Birth Date" attrs="{'required': [('is_student', '=', True)]}"/>
             </xpath>
-
         </field>
     </record>
 

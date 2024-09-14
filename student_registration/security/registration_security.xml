@@ -7,5 +7,6 @@
     <record id="group_registration_manager" model="res.groups">
         <field name="name">Registration Manager</field>
         <field name="category_id" ref="student_registration_category"/>
+        <field name="implied_ids" eval="[Command.link(ref('base.group_user'))]"/>
     </record>
 </odoo>

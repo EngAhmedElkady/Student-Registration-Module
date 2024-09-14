@@ -10,7 +10,7 @@ class StudentRegistration(models.Model):
 
     _name = 'student.registration'
     _description = 'Student Registration'
-    _order = 'name desc'
+    _order = 'name'
 
     # --------------------------------------- Fields Declaration ----------------------------------
 
@@ -31,7 +31,7 @@ class StudentRegistration(models.Model):
 
     # ----------------------------------- Computed Methods --------------------------------
 
-    @api.depends('student_id')
+    @api.depends('student_id.phone')
     def _compute_phone(self):
         for record in self:
             if record.state == 'draft':
@@ -50,9 +50,10 @@ class StudentRegistration(models.Model):
         student = self.env['res.partner'].browse(vals.get('student_id'))
         if student:
             if not student.is_student:
-                student.is_student = True
+                raise ValidationError("The selected partner is not marked as a student.")
             if not student.birth_date:
-                raise ValidationError("Birthdate is required for students.")
+                raise ValidationError("The selected student does not have a birth date.")
+
         return super(StudentRegistration, self).create(vals)
 
     # ----------------------------------- Constrains and Onchanges --------------------------------

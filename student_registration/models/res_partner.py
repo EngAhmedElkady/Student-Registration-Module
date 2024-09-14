@@ -19,8 +19,3 @@ class ResPartner(models.Model):
         for rec in self:
             if rec.birth_date and rec.birth_date > date.today():
                 raise ValidationError("The birth date cannot be in the future.")
-
-    # @api.onchange('is_student')
-    # def _onchange_is_student(self):
-    #     if self.is_student and not self.birth_date:
-    #         raise ValidationError("Birth Date is required for students.")

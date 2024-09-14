@@ -9,10 +9,7 @@
     'author': 'Ahmed Elkady',
     'website': '',
     'license': 'LGPL-3',
-    'depends': [
-        'base',    # Required for basic Odoo functionalities like res.partner
-        'account'  # Required for invoicing functionalities
-    ],
+    'depends': ['base', 'account'],
     'data': [
         # security
         'security/registration_security.xml',
@@ -24,7 +21,6 @@
         # views
         'views/res_partner_views.xml',
         'views/student_registration_views.xml',
-        # 'views/calendar_view.xml',
 
         # menu
         'menu_views.xml',
